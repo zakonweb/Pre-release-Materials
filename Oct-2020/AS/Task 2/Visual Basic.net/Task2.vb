@@ -10,8 +10,7 @@
 
     'WE WILL BE USING FOLLOWING STATEMENT
     'StockRecord = ItemCode & "#" & ItemDescription & "#" & CStr(Price) & "#" & CStr(NumberInStock)
-    'WHERE:
-    '# sign will be used as a delimeter between four fields to 
+    'WHERE: # sign will be used as a delimeter between four fields to 
     'create a single string for saving to file
     'CStr() function will be used for casting from Single 
     'and Integer to string data types
