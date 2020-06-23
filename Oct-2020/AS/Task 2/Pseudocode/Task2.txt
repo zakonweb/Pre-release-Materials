@@ -119,7 +119,7 @@
         INPUT STRING_TO_NUM(price)
 
         CALL DisplayRecordsAbovePrice(price)
-    END PROCEDURE
+    END PROCEDURE 
 
     Private PROCEDURE AppendRecord()
         //TASK 2.2
