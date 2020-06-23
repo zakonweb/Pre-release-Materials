@@ -43,7 +43,7 @@
                 OTHERWISE: OUTPUT "Wrong choice. Please chose an option between 1-8."
             END CASE
         END WHILE
-    END PROCEDURE
+    END PROCEDURE 
 
     PROCEDURE Task11()
         //TASK 1.1
