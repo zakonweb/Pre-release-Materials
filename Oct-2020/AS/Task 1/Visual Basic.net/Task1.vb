@@ -18,7 +18,7 @@
         Call Initialise()
         While Choice <> 8
             Console.Clear()
-            Console.WriteLine("AS Computer Science 9608, Pre Release Material (All Varients) -- Oct/Nov 2020")
+            Console.WriteLine("AS Computer Science 9608, Pre Release Material (All Variants) -- Oct/Nov 2020")
             Console.WriteLine("Simulator by Zak; http://www.zakonweb.com")
             Console.WriteLine(StrDup(95, "-"))
             Console.WriteLine("MENU - TASK 1")
