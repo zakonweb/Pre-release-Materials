@@ -1,6 +1,6 @@
 ﻿    //TASK 1 – Algorithms, arrays and pseudocode
-    //The following four 1D arrays can sTOre dIFferent pieces of data about Stock items in a shop:
-    //Array identIFier 	Data type
+    //The following four 1D arrays can store different pieces of data about Stock items in a shop:
+    //Array identifier 	Data type
     //ItemCode 		    STRING
     //ItemDescription 	STRING
     //Price 			    REAL
@@ -16,15 +16,15 @@
         DECLARE Choice : INTEGER = 0
         CALL Initialise()
         WHILE Choice <> 8
-            OUTPUT "AS Computer Science 9608, Pre Release Material (All Varients) -- Oct/Nov 2020"
+            OUTPUT "AS Computer Science 9608, Pre Release Material (All Variants) -- Oct/Nov 2020"
             OUTPUT "Simulator by Zak; http://www.zakonweb.com"
             OUTPUT "------------------------------------------------------------------------------"
             OUTPUT "MENU - TASK 1"
             OUTPUT "1. Enter data into arrays."
-            OUTPUT "2. Populate arrays auTOmatiCALLy."
+            OUTPUT "2. Populate arrays automatically."
             OUTPUT "3. Display complete data captured in arrays."
-            OUTPUT "4. Task 1.1: Search FOR a specIFic value in ItemDescription."
-            OUTPUT "5. Task 1.2: Search FOR multiple instances of the value."
+            OUTPUT "4. Task 1.1: Search for a specific value in ItemDescription."
+            OUTPUT "5. Task 1.2: Search for multiple instances of the value."
             OUTPUT "6. Task 1.3: Search & output the corresponding values from all arrays."
             OUTPUT "7. Task 1.4: Display all the information about items in Stock below a given level."
             OUTPUT "8. Quit"
@@ -47,38 +47,38 @@
 
     PROCEDURE Task11()
         //TASK 1.1
-        //Design an algorithm to search FOR a specific value in ItemDescription and, 
+        //Design an algorithm to search for a specific value in ItemDescription and, 
         //IF found, to output the array index where the value is found. 
-        //Output a suitable message IF the value is not found.
+        //Output a suitable message if the value is not found.
 
         DECLARE Description : STRING = ""
         DECLARE isStrict : CHARACTER = ''
         DECLARE Strict : BOOLEAN
         DECLARE Position : INTEGER = 0
 
-        OUTPUT "Enter item description TO search FOR: "
+        OUTPUT "Enter item description to search for: "
         INPUT Description 
 
         OUTPUT "Do you want strict searching (Y/N): "
         INPUT UPPER(isStrict)
         IF isStrict = 'Y' THEN Strict = TRUE
 
-        Position = SearchUniqueItemDescription[Descripotion, Strict)
+        Position = SearchUniqueItemDescription(Description, Strict)
         IF Position = 0 THEN
-            OUTPUT Descripotion & " is not found in Stock."
+            OUTPUT Description & " is not found in Stock."
         ELSE
-            OUTPUT Descripotion & " is found in Stock at location: " & NUM_TO_STRING(Position))
+            OUTPUT Description & " is found in Stock at location: " & NUM_TO_STRING(Position))
         END IF
     END PROCEDURE
 
     PROCEDURE Task12()
         //TASK 1.2
-        //Consider the dIFference between algorithms that search 
-        //FOR a REAL or multiple instance of the value.
+        //Consider the difference between algorithms that search 
+        //For a single or multiple instance of the value.
 
         DECLARE Description : STRING = ""
 
-        OUTPUT "Enter item description TO search FOR:"
+        OUTPUT "Enter item description to search for:"
         INPUT Description 
 
         CALL SearchMultipleItemDescription(Description)
@@ -86,10 +86,10 @@
 
     PROCEDURE Task13()
         //TASK 1.3
-        //ExtEND the algorithm from Task 1.1 TO output 
+        //Extend the algorithm from Task 1.1 TO output 
         //the corresponding values from the other arrays.
 
-        DECLARE Descripotion : STRING = ""
+        DECLARE Description : STRING = ""
         DECLARE isStrict : CHARACTER = ''
         DECLARE Strict : BOOLEAN
         DECLARE Position : INTEGER = 0
@@ -101,11 +101,11 @@
         isStrict = UPPER(Console.ReadLine)
         IF isStrict = 'Y' THEN Strict = TRUE
 
-        Position = SearchUniqueItemDescription(Descripotion, Strict)
+        Position = SearchUniqueItemDescription(Description, Strict)
         IF Position = 0 THEN
-            OUTPUT Descripotion & " is not found in Stock."
+            OUTPUT Description & " is not found in Stock."
         ELSE
-            OUTPUT Descripotion & " is found in Stock at location: " & NUM_TO_STRING(Position)
+            OUTPUT Description & " is found in Stock at location: " & NUM_TO_STRING(Position)
             OUTPUT "Item code: " & ItemCode[Position]
             OUTPUT "Item description: " & ItemDescription[Position]
             OUTPUT "Item price: " & NUM_TO_STRING(Price[Position])
@@ -115,17 +115,17 @@
 
     PROCEDURE Task14()
         //TASK 1.4
-        //Write program code TO produce a report displaying
+        //Write program code to produce a report displaying
         DECLARE StockLevel : INTEGER = 0
 
-        OUTPUT "Enter item level TO search FOR: "
+        OUTPUT "Enter item level to search for: "
         INPUT INT(StockLevel)
 
         CALL DisplayRecordsBelowLevel(StockLevel)
     END PROCEDURE
 
     PROCEDURE Initialise()
-        //Initialise all SC arrays used
+        //Initialise all SD arrays used
         DECLARE x : INTEGER
         FOR x = 1 TO items
             ItemCode[x] = ""
