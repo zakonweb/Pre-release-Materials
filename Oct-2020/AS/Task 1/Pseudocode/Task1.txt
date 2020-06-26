@@ -98,8 +98,8 @@
         INPUT Description 
 
         OUTPUT "Do you want strict searching (Y/N): "
-        isStrict = UPPER(Console.ReadLine)
-        IF isStrict = 'Y' THEN Strict = TRUE
+        INPUT isStrict 
+        IF UPPER(isStrict) = 'Y' THEN Strict = TRUE
 
         Position = SearchUniqueItemDescription(Description, Strict)
         IF Position = 0 THEN
@@ -282,7 +282,7 @@
 
     PROCEDURE DisplayAllRecords()
         DECLARE x : INTEGER = 0
-        DECLARE myPrice : STRING = "
+        DECLARE myPrice : STRING = ""
 
         OUTPUT "Item code  "
         OUTPUT "Item description                        "
@@ -300,7 +300,7 @@
 
     PROCEDURE DisplayRecordsBelowLevel(Level : INTEGER)
         DECLARE x : INTEGER = 0
-        DECLARE myPrice : STRING = "
+        DECLARE myPrice : STRING = ""
 
         OUTPUT "Records below level: " & Level
         OUTPUT "Item code  "
