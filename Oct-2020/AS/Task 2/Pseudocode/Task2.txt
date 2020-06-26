@@ -1,429 +1,431 @@
-﻿    //TASK 2 – Programs containing several components
-    //The stock data described in Task 1 are now to be stored in a text file.
-    //Each line of the file will correspond to one stock item.
+﻿//TASK 2 – Programs containing several components
+//The stock data described in Task 1 are now to be stored in a text file.
+//Each line of the file will correspond to one stock item.
 
-    //TASK 2.1
-    //Define a format in which each line of the text file can store the 
-    //different pieces of data about one stock item.
-    //Consider whether there is a requirement for data type conversion.
+//TASK 2.1
+//Define a format in which each line of the text file can store the 
+//different pieces of data about one stock item.
+//Consider whether there is a requirement for data type conversion.
 
-    //WE WILL BE USING FOLLOWING STATEMENT
-    //StockRecord = ItemCode & "#" & ItemDescription & "#" & NUM_TO_STRING(Price) & "#" & NUM_TO_STRING(NumberInStock)
-    //WHERE:
-    //# sign will be used : a delimeter between four fields to 
-    //create a REAL STRING for saving to file
-    //NUM_TO_STRING() FUNCTION will be used for casting from REAL 
-    //AND INTEGER to STRING data types
+//WE WILL BE USING FOLLOWING STATEMENT
+//StockRecord = ItemCode & "#" & ItemDescription & "#" & 
+//NUM_TO_STRING(Price) & "#" & NUM_TO_STRING(NumberInStock)
+//WHERE:
+//# sign will be used : a delimeter between four fields to 
+//create a single string for saving to file
+//NUM_TO_STRING() FUNCTION will be used for casting from REAL 
+//AND INTEGER to STRING data types
 
-    DECLARE StockRecord, StockField : STRING
-    DECLARE SRec: ARRAY[1:15] OF STRING
-    DECLARE ItemCode : STRING
-    DECLARE ItemDescription : STRING
-    DECLARE Price : REAL
-    DECLARE NumberInStock : INTEGER
+DECLARE StockRecord, StockField : STRING
+DECLARE SRec: ARRAY[1:15] OF STRING
+DECLARE ItemCode : STRING
+DECLARE ItemDescription : STRING
+DECLARE Price : REAL
+DECLARE NumberInStock : INTEGER
 
-    PROCEDURE Main()
-        //TASK 2.4
-        //Consider the different modes when opening a file.
-        //Discuss the difference between creating a file AND 
-        //amENDing the contents.
-        //ExtEND the program to include a menu-driven interface that 
-        //will perform the following tasks:
-        //A. Add a new stock item to the text file. Include validation of 
-        //the different pieces of information as
-        //appropriate. For example, item code data may be a fixed format.
-        //B. Search for a stock item with a specific item code. Output the 
-        //other pieces of data together with suitable supporting text.
-        //C. Search for all stock items with a specific item description, 
-        //with output : for task B.
-        //D. Output a list of all stock items with a price greater than a given amount.
+PROCEDURE Main()
+    //TASK 2.4
+    //Consider the different modes when opening a file.
+    //Discuss the difference between creating a file AND 
+    //amENDing the contents.
+    //ExtEND the program to include a menu-driven interface that 
+    //will perform the following tasks:
+    //A. Add a new stock item to the text file. Include validation of 
+    //the different pieces of information as
+    //appropriate. For example, item code data may be a fixed format.
+    //B. Search for a stock item with a specific item code. Output the 
+    //other pieces of data together with suitable supporting text.
+    //C. Search for all stock items with a specific item description, 
+    //with output : for task B.
+    //D. Output a list of all stock items with a price greater than a given amount.
 
-        DECLARE choice : INTEGER
-        choice = 0
-        WHILE choice <> 8
-            OUTPUT "AS Computer Science 9608, Pre Release Material (All Varients) -- Oct/Nov 2020"
-            OUTPUT "Simulator by Zak; http://www.zakonweb.com"
-            OUTPUT "------------------------------------------------------------------------------"
-            OUTPUT "MENU - TASK 2"
-            OUTPUT "1: APPEND record to the file"
-            OUTPUT "2: READ all records from the file"
-            OUTPUT "3: DELETE a record from the file"
-            OUTPUT "4: EDIT a record in the file"
-            OUTPUT "5: SEARCH item code from the file"
-            OUTPUT "6: SEARCH item description from the file"
-            OUTPUT "7: Display records above a given price"
-            OUTPUT "8: EXIT"
-			
-            OUTPUT "Enter your choice... "
-            choice INPUT 
-            CASE OF choice
-                1 : CALL AppENDRecord()
-                2 : CALL DisplayAllRecords()
-                3 : CALL DeleteRecord()
-                4 : CALL EditRecord()
-                5 : CALL Task24B()
-                6 : CALL Task24C()
-                7 : CALL Task24D()
-                8 //Quit Program
-                OTHERWIE: OUTPUT "Wrong choice made... Press any key to continue."
-            END CASE
-        END WHILE
-    END PROCEDURE
-
-    PROCEDURE Task24B()
-        //B. Search for a stock item with a specific item code. Output the 
-        //other pieces of data together with suitable supporting text.
-
-        DECLARE code : STRING = ""
-        DECLARE isFound : BOOLEAN = FALSE
-
-        REPEAT
-            OUTPUT "Enter item code (Format:A9) to search for: "
-            INPUT code 
-        UNTIL ValidItemCode(code) = TRUE
-
-        isFound = SearchItemCode(code)
-        IF isFound = FALSE THEN
-            OUTPUT code & " is NOT found in stock file."
-        ELSE
-            OUTPUT code & " is found in stock file."
-        END IF
-
-    END PROCEDURE
-
-    PROCEDURE Task24C()
-        //C. Search for all stock items with a specific item description, 
-        //with output : for task B.
-
-        DECLARE Description : STRING = ""
-        DECLARE isStrict : CHARACTER = ''
-        DECLARE Strict : BOOLEAN
-        DECLARE isFound : BOOLEAN = FALSE
-
-        OUTPUT "Enter item description to search for: "
-        INPUT Description 
-
-        OUTPUT "REPEAT you want strict searching (Y/N): "
-        isStrict = UPPER(Console.ReadLine)
-        IF isStrict = 'Y' THEN Strict = TRUE
-
-        isFound = SearchItemDescription(Description, Strict)
-        IF isFound = FALSE THEN OUTPUT Description & " is NOT found in stock."
-    END PROCEDURE
-
-    PROCEDURE Task24D()
-        //D. Output a list of all stock items with a price greater than a given amount.
-        DECLARE price : REAL = 0
-
-        OUTPUT "Enter item price: "
-        INPUT STRING_TO_NUM(price)
-
-        CALL DisplayRecordsAbovePrice(price)
-    END PROCEDURE 
-
-    Private PROCEDURE AppendRecord()
-        //TASK 2.2
-        //Design an algorithm to input the four pieces of data 
-        //about a stock item, form a STRING according to your
-        //format design, AND write the STRING to the text file.
-
-        //TASK 2.3
-        //Write program code to implement your algorithm.
-
-        StockRecord = ""
-        ItemCode = ""
-        ItemDescription = ""
-        Price = 0.0
-        NumberInStock = 0
-
-        //Task 2.4
-        //A. Add a new stock item to the text file. Include validation of 
-        //the different pieces of information as
-        //appropriate. For example, item code data may be a fixed format.
-
-        REPEAT
-            OUTPUT "Enter item code(Format:A9): "
-            INPUT ItemCode 
-        UNTIL ValidItemCode(ItemCode) = TRUE
-
-        OUTPUT "Enter item description: "
-        INPUT ItemDescription 
-
-        OUTPUT "Enter item price: "
-        INPUT Price 
-
-        OUTPUT "Enter item number in stock (quantity): "
-        INPUT NumberInStock 
-
-        StockRecord = ItemCode & "#" & ItemDescription & "#" & NUM_TO_STRING(Price) & "#" & NUM_TO_STRING(NumberInStock)
-
-        OPENFILE "StockFile.txt" FOR APPEND
-        WRITEFILE "StockFile.txt", StockRecord
-        CLOSEFILE "StockFile.txt"
-
-        OUTPUT "Record appended successfully... Press any key to continue."
-    END PROCEDURE
-
-    Private PROCEDURE DeleteRecord()
-        DECLARE IC : STRING
-        DECLARE isFound : BOOLEAN = FALSE
-
-        ItemCode = ""
-        ItemDescription = ""
-        Price = 0.0
-        NumberInStock = 0
-
-        REPEAT
-            OUTPUT "Enter Item Code (Format: A9) to Delete :"
-            INPUT IC 
-        UNTIL ValidItemCode(IC) = TRUE
-
-        OPENFILE "StockFile.txt" FOR READ
-        OPENFILE "tempFile.txt" FOR OUTPUT
-        WHILE NOT EOF(1)
-            READFILE "StockFile.txt", StockRecord
-            SRec = SPLIT(StockRecord, "#")
-            ItemCode = TRIM(SRec[0])
-            ItemDescription = TRIM(SRec[1])
-            Price = SRec[2]
-            NumberInStock = SRec[3]
-
-            IF IC = ItemCode THEN
-                isFound = TRUE
-            ELSE
-                WRITEFILE "tempFile.txt", StockRecord
-            END IF
-        END WHILE
-
-        CLOSEFILE "StockFIle.txt"
-        CLOSEFILE "tempFile"
+    DECLARE choice : INTEGER
+    choice = 0
+    WHILE choice <> 8
+        OUTPUT "AS Computer Science 9608, Pre Release Material (All Variants) -- Oct/Nov 2020"
+        OUTPUT "Simulator by Zak; http://www.zakonweb.com"
+        OUTPUT "------------------------------------------------------------------------------"
+        OUTPUT "MENU - TASK 2"
+        OUTPUT "1: APPEND record to the file"
+        OUTPUT "2: READ all records from the file"
+        OUTPUT "3: DELETE a record from the file"
+        OUTPUT "4: EDIT a record in the file"
+        OUTPUT "5: SEARCH item code from the file"
+        OUTPUT "6: SEARCH item description from the file"
+        OUTPUT "7: Display records above a given price"
+        OUTPUT "8: EXIT"
 		
-        DELETEFILE "StockFile.txt"
-        RENAMEFILE "tempFile.txt" TO "StockFile.txt"
+        OUTPUT "Enter your choice... "
+        choice INPUT 
+        CASE OF choice
+            1 : CALL AppendRecord()
+            2 : CALL DisplayAllRecords()
+            3 : CALL DeleteRecord()
+            4 : CALL EditRecord()
+            5 : CALL Task24B()
+            6 : CALL Task24C()
+            7 : CALL Task24D()
+            8 //Quit Program
+            OTHERWIE: OUTPUT "Wrong choice made... Press any key to continue."
+        END CASE
+    END WHILE
+END PROCEDURE
 
-        IF isFound = TRUE THEN
-            OUTPUT "Record deleted successfully... Press any key to continue."
+PROCEDURE Task24B()
+    //B. Search for a stock item with a specific item code. Output the 
+    //other pieces of data together with suitable supporting text.
+
+    DECLARE code : STRING = ""
+    DECLARE isFound : BOOLEAN = FALSE
+
+    REPEAT
+        OUTPUT "Enter item code (Format:A9) to search for: "
+        INPUT code 
+    UNTIL ValidItemCode(code) = TRUE
+
+    isFound = SearchItemCode(code)
+    IF isFound = FALSE THEN
+        OUTPUT code & " is NOT found in stock file."
+    ELSE
+        OUTPUT code & " is found in stock file."
+    END IF
+
+END PROCEDURE
+
+PROCEDURE Task24C()
+    //C. Search for all stock items with a specific item description, 
+    //with output : for task B.
+
+    DECLARE Description : STRING = ""
+    DECLARE isStrict : CHARACTER = ''
+    DECLARE Strict : BOOLEAN
+    DECLARE isFound : BOOLEAN = FALSE
+
+    OUTPUT "Enter item description to search for: "
+    INPUT Description 
+
+    OUTPUT "REPEAT you want strict searching (Y/N): "
+    INPUT isStrict
+
+    IF UPPER(isStrict) = 'Y' THEN Strict = TRUE
+
+    isFound = SearchItemDescription(Description, Strict)
+    IF isFound = FALSE THEN OUTPUT Description & " is NOT found in stock."
+END PROCEDURE
+
+PROCEDURE Task24D()
+    //D. Output a list of all stock items with a price greater than a given amount.
+    DECLARE price : REAL = 0
+
+    OUTPUT "Enter item price: "
+    INPUT STRING_TO_NUM(price)
+
+    CALL DisplayRecordsAbovePrice(price)
+END PROCEDURE 
+
+Private PROCEDURE AppendRecord()
+    //TASK 2.2
+    //Design an algorithm to input the four pieces of data 
+    //about a stock item, form a STRING according to your
+    //format design, AND write the STRING to the text file.
+
+    //TASK 2.3
+    //Write program code to implement your algorithm.
+
+    StockRecord = ""
+    ItemCode = ""
+    ItemDescription = ""
+    Price = 0.0
+    NumberInStock = 0
+
+    //Task 2.4
+    //A. Add a new stock item to the text file. Include validation of 
+    //the different pieces of information as
+    //appropriate. For example, item code data may be a fixed format.
+
+    REPEAT
+        OUTPUT "Enter item code(Format:A9): "
+        INPUT ItemCode 
+    UNTIL ValidItemCode(ItemCode) = TRUE
+
+    OUTPUT "Enter item description: "
+    INPUT ItemDescription 
+
+    OUTPUT "Enter item price: "
+    INPUT Price 
+
+    OUTPUT "Enter item number in stock (quantity): "
+    INPUT NumberInStock 
+
+    StockRecord = ItemCode & "#" & ItemDescription & "#" & NUM_TO_STRING(Price) & "#" & NUM_TO_STRING(NumberInStock)
+
+    OPENFILE "StockFile.txt" FOR APPEND
+    WRITEFILE "StockFile.txt", StockRecord
+    CLOSEFILE "StockFile.txt"
+
+    OUTPUT "Record appended successfully... Press any key to continue."
+END PROCEDURE
+
+Private PROCEDURE DeleteRecord()
+    DECLARE IC : STRING
+    DECLARE isFound : BOOLEAN = FALSE
+
+    ItemCode = ""
+    ItemDescription = ""
+    Price = 0.0
+    NumberInStock = 0
+
+    REPEAT
+        OUTPUT "Enter Item Code (Format: A9) to Delete :"
+        INPUT IC 
+    UNTIL ValidItemCode(IC) = TRUE
+
+    OPENFILE "StockFile.txt" FOR READ
+    OPENFILE "tempFile.txt" FOR OUTPUT
+    WHILE NOT EOF(1)
+        READFILE "StockFile.txt", StockRecord
+        SRec = SPLIT(StockRecord, "#")
+        ItemCode = TRIM(SRec[0])
+        ItemDescription = TRIM(SRec[1])
+        Price = SRec[2]
+        NumberInStock = SRec[3]
+
+        IF IC = ItemCode THEN
+            isFound = TRUE
         ELSE
-            OUTPUT "Record was NOT found... Press any key to continue."
+            WRITEFILE "tempFile.txt", StockRecord
         END IF
-    END PROCEDURE
+    END WHILE
 
-    PROCEDURE EditRecord()
-        DECLARE IC, Description : STRING
-        DECLARE Tprice : REAL
-        DECLARE StockQty : INTEGER
-        DECLARE flag : BOOLEAN
+    CLOSEFILE "StockFIle.txt"
+    CLOSEFILE "tempFile"
+	
+    DELETEFILE "StockFile.txt"
+    RENAMEFILE "tempFile.txt" TO "StockFile.txt"
 
-        ItemCode = ""
-        ItemDescription = ""
-        Price = 0.0
-        NumberInStock = 0
+    IF isFound = TRUE THEN
+        OUTPUT "Record deleted successfully... Press any key to continue."
+    ELSE
+        OUTPUT "Record was NOT found... Press any key to continue."
+    END IF
+END PROCEDURE
 
-        flag = FALSE
-        REPEAT
-            OUTPUT "Enter item code (Format:A9): "
-            INPUT IC 
-        UNTIL ValidItemCode(IC) = TRUE
+PROCEDURE EditRecord()
+   DECLARE IC, Description : STRING
+   DECLARE Tprice : REAL
+   DECLARE StockQty : INTEGER
+   DECLARE flag : BOOLEAN
 
-        OUTPUT "Enter item description: "
-        INPUT Description 
+   ItemCode = ""
+   ItemDescription = ""
+   Price = 0.0
+   NumberInStock = 0
 
-        OUTPUT "Enter item price: "
-        INPUT STRING_TO_NUM(Tprice)
+   flag = FALSE
+   REPEAT
+       OUTPUT "Enter item code (Format:A9): "
+       INPUT IC 
+   UNTIL ValidItemCode(IC) = TRUE
 
-        OUTPUT "Enter item number in stock (quantity): "
-        INPUT  STRING_TO_NUM(StockQty)
+   OUTPUT "Enter item description: "
+   INPUT Description 
 
-        OPENFILE "StockFile.txt" FOR READ
-        OPENFILE "tempFile.txt" FOR APPEND
-        WHILE NOT EOF("StockFile.txt")
-            READFILE "StockFile.txt", StockRecord
-            SRec = SPLIT(StockRecord, "#")
-            ItemCode = TRIM(SRec[0])
-            ItemDescription = TRIM(SRec[1])
-            Price = SRec[2]
-            NumberInStock = SRec[3]
+   OUTPUT "Enter item price: "
+   INPUT STRING_TO_NUM(Tprice)
 
-            IF IC = ItemCode THEN
-                StockRecord = IC & "#" & Description & "#" & NUM_TO_STRING(Tprice) & "#" & NUM_TO_STRING(StockQty)
-                WRITEFILE "tempFile.txt", StockRecord
-                flag = TRUE
-            ELSE
-                StockRecord = ItemCode & "#" & ItemDescription & "#" & NUM_TO_STRING(Price) & "#" & NUM_TO_STRING(NumberInStock)
-                WRITEFILE "tempFile.txt" StockRecord)
-            END IF
-        END WHILE
-        CLOSEFILE "StockFile.txt"
-        CLOSEFILE "TempFIle.txt"
-        
-		DELETEFILE "StockFile.txt"
-        RENAMEFILE "tempFile.txt" TO "StockFile.txt"
+   OUTPUT "Enter item number in stock (quantity): "
+   INPUT  STRING_TO_NUM(StockQty)
 
-        IF flag = FALSE THEN
-            OUTPUT "Record NOT found."
-        ELSE
-            OUTPUT "Record edited successfully... Press any key to continue."
-        END IF
-    END PROCEDURE
+   OPENFILE "StockFile.txt" FOR READ
+   OPENFILE "tempFile.txt" FOR OUTPUT
+   WHILE NOT EOF("StockFile.txt")
+       READFILE "StockFile.txt", StockRecord
+       SRec = SPLIT(StockRecord, "#")
+       ItemCode = TRIM(SRec[0])
+       ItemDescription = TRIM(SRec[1])
+       Price = SRec[2]
+       NumberInStock = SRec[3]
 
-    PROCEDURE DisplayRecordsAbovePrice(Level : INTEGER)
-        DECLARE x : INTEGER = 0
-        DECLARE myPrice : STRING = ""
+       IF IC = ItemCode THEN
+           StockRecord = IC & "#" & Description & "#" & NUM_TO_STRING(Tprice) & "#" & NUM_TO_STRING(StockQty)
+           WRITEFILE "tempFile.txt", StockRecord
+           flag = TRUE
+       ELSE
+           StockRecord = ItemCode & "#" & ItemDescription & "#" & NUM_TO_STRING(Price) & "#" & NUM_TO_STRING(NumberInStock)
+           WRITEFILE "tempFile.txt" StockRecord)
+       END IF
+   END WHILE
+   CLOSEFILE "StockFile.txt"
+   CLOSEFILE "TempFIle.txt"
+   
+	DELETEFILE "StockFile.txt"
+   RENAMEFILE "tempFile.txt" TO "StockFile.txt"
 
-        OUTPUT "Records above price level: " & Level
-        OUTPUT "Item code  "
-        OUTPUT "Item description                        "
-        OUTPUT "Item price  "
-        OUTPUT "Item number in stock (quantity)"
-        OUTPUT "---------------------------------------------------------------------------------------"
+   IF flag = FALSE THEN
+       OUTPUT "Record not found."
+   ELSE
+       OUTPUT "Record edited successfully... Press any key to continue."
+   END IF
+END PROCEDURE
 
-        OPENFILE "StockFile.txt" FOR READ
-        WHILE NOT EOF("StockFile.txt")
-            READFILE "StockFile.txt", StockRecord
-            SRec = SPLIT(StockRecord, "#")
-            ItemCode = TRIM(SRec[0])
-            ItemDescription = TRIM(SRec[1])
-            Price = SRec[2]
-            NumberInStock = SRec[3]
+PROCEDURE DisplayRecordsAbovePrice(Level : INTEGER)
+   DECLARE x : INTEGER = 0
+   DECLARE myPrice : STRING = ""
 
-            IF Price > Level THEN
-                OUTPUT ItemCode + SPACE(9)
-                OUTPUT ItemDescription & SPACE(40 - LENGTH(ItemDescription))
-                myPrice = FORMAT(Price, "##########.00")
-                OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
-                OUTPUT NumberInStock
-            END IF
-        END WHILE
+   OUTPUT "Records above price level: " & Level
+   OUTPUT "Item code  "
+   OUTPUT "Item description                        "
+   OUTPUT "Item price  "
+   OUTPUT "Item number in stock (quantity)"
+   OUTPUT "---------------------------------------------------------------------------------------"
 
-        CLOSEFILE "StockFile.txt"
-    END PROCEDURE
+   OPENFILE "StockFile.txt" FOR READ
+   WHILE NOT EOF("StockFile.txt")
+       READFILE "StockFile.txt", StockRecord
+       SRec = SPLIT(StockRecord, "#")
+       ItemCode = TRIM(SRec[0])
+       ItemDescription = TRIM(SRec[1])
+       Price = SRec[2]
+       NumberInStock = SRec[3]
 
-    PROCEDURE DisplayAllRecords()
-        DECLARE x : INTEGER = 0
-        DECLARE myPrice : STRING = ""
+       IF Price > Level THEN
+           OUTPUT ItemCode + SPACE(9)
+           OUTPUT ItemDescription & SPACE(40 - LENGTH(ItemDescription))
+           myPrice = FORMAT(Price, "##########.00")
+           OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
+           OUTPUT NumberInStock
+       END IF
+   END WHILE
 
-        OUTPUT "Item code  "
-        OUTPUT "Item description                        "
-        OUTPUT "Item price  "
-        OUTPUT "Item number in stock (quantity)"
-        OUTPUT "------------------------------------------------------------------------------------"
+   CLOSEFILE "StockFile.txt"
+END PROCEDURE
 
-        OPENFILE "StockFile.txt" FOR READ
-        WHILE NOT EOF(1)
-            READFILE "StockFile.txt", StockRecord
-            SRec = SPLIT(StockRecord, "#")
-            ItemCode = TRIM(SRec[0])
-            ItemDescription = TRIM(SRec[1])
-            Price = SRec[2]
-            NumberInStock = SRec[3]
+PROCEDURE DisplayAllRecords()
+   DECLARE x : INTEGER = 0
+   DECLARE myPrice : STRING = ""
 
-            OUTPUT ItemCode & SPACE(9)
+   OUTPUT "Item code  "
+   OUTPUT "Item description                        "
+   OUTPUT "Item price  "
+   OUTPUT "Item number in stock (quantity)"
+   OUTPUT "------------------------------------------------------------------------------------"
+
+   OPENFILE "StockFile.txt" FOR READ
+   WHILE NOT EOF(1)
+       READFILE "StockFile.txt", StockRecord
+       SRec = SPLIT(StockRecord, "#")
+       ItemCode = TRIM(SRec[0])
+       ItemDescription = TRIM(SRec[1])
+       Price = SRec[2]
+       NumberInStock = SRec[3]
+
+       OUTPUT ItemCode & SPACE(9)
+       OUTPUT ItemDescription & SPACE(40 - LENGTH(ItemDescription))
+       myPrice = FORMAT(Price, "##########.00")
+       OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
+       OUTPUT NumberInStock
+   END WHILE
+
+   CLOSEFILE "StockFile.txt"
+END PROCEDURE
+
+FUNCTION SearchItemCode(IC : STRING) RETURNS BOOLEAN
+    DECLARE flag : BOOLEAN
+    DECLARE myPrice : STRING
+
+    ItemCode = ""
+    ItemDescription = ""
+    Price = 0.0
+    NumberInStock = 0
+    myPrice = ""
+    flag = FALSE
+
+    OPENFILE "StockFile.txt" FOR READ
+    WHILE NOT EOF("StockFile.txt")
+        READFILE "StockFile.txt", StockRecord
+        SRec = SPLIT(StockRecord, "#")
+        ItemCode = TRIM(SRec[0])
+        ItemDescription = TRIM(SRec[1])
+        Price = SRec[2]
+        NumberInStock = SRec[3]
+
+        IF IC = ItemCode THEN
+            flag = TRUE
+
+            OUTPUT "Item code  "
+            OUTPUT "Item description                        "
+            OUTPUT "Item price  "
+            OUTPUT "Item number in stock (quantity)"
+            OUTPUT "-----------------------------------------------------------------------------"
+
+            OUTPUT ItemCode + SPACE(9)
             OUTPUT ItemDescription & SPACE(40 - LENGTH(ItemDescription))
             myPrice = FORMAT(Price, "##########.00")
             OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
             OUTPUT NumberInStock
-        END WHILE
+            EXIT WHILE
+        END IF
+    END WHILE
 
-        CLOSEFILE "StockFile.txt"
-    END PROCEDURE
+    CLOSEFILE "StockFile.txt"
+    RETURN flag
+END FUNCTION
 
-    FUNCTION SearchItemCode(IC : STRING) RETURNS BOOLEAN
-        DECLARE flag : BOOLEAN
-        DECLARE myPrice : STRING
+FUNCTION SearchItemDescription(description : STRING, Strict : BOOLEAN) RETURNS BOOLEAN
 
-        ItemCode = ""
-        ItemDescription = ""
-        Price = 0.0
-        NumberInStock = 0
-        myPrice = ""
-        flag = FALSE
+    DECLARE isFound : BOOLEAN
+    DECLARE myPrice : STRING
 
-        OPENFILE "StockFile.txt" FOR READ
-        WHILE NOT EOF("StockFile.txt")
-            READFILE "StockFile.txt", StockRecord
-            SRec = SPLIT(StockRecord, "#")
-            ItemCode = TRIM(SRec[0])
-            ItemDescription = TRIM(SRec[1])
-            Price = SRec[2]
-            NumberInStock = SRec[3]
+    ItemCode = ""
+    ItemDescription = ""
+    Price = 0.0
+    NumberInStock = 0
+    myPrice = ""
+    isFound = FALSE
 
-            IF IC = ItemCode THEN
-                flag = TRUE
+    OPENFILE "StockFile.txt" FOR READ
 
-                OUTPUT "Item code  "
-                OUTPUT "Item description                        "
-                OUTPUT "Item price  "
-                OUTPUT "Item number in stock (quantity)"
-                OUTPUT "-----------------------------------------------------------------------------"
+    OUTPUT "Item code  "
+    OUTPUT "Item description                        "
+    OUTPUT "Item price  "
+    OUTPUT "Item number in stock (quantity)"
+    OUTPUT "---------------------------------------------------------------------------------------"
 
-                OUTPUT ItemCode + SPACE(9)
+    WHILE NOT EOF("StockFile.txt")
+        READFILE "StockFile.txt", StockRecord
+        SRec = SPLIT(StockRecord, "#")
+        ItemCode = TRIM(SRec[0])
+        ItemDescription = TRIM(SRec[1])
+        Price = SRec[2]
+        NumberInStock = SRec[3]
+
+        IF Strict = TRUE THEN
+            IF ItemDescription = description THEN isFound = TRUE
+        ELSE
+            IF UPPER(ItemDescription) = UPPER(description) THEN isFound = TRUE
+        END IF
+
+        IF isFound = TRUE THEN
+            IF UPPER(ItemDescription) = UPPER(description) THEN
+                OUTPUT ItemCode & SPACE(9)
                 OUTPUT ItemDescription & SPACE(40 - LENGTH(ItemDescription))
                 myPrice = FORMAT(Price, "##########.00")
                 OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
                 OUTPUT NumberInStock
-                EXIT WHILE
             END IF
-        END WHILE
-
-        CLOSEFILE "StockFile.txt"
-        RETURN flag
-    END FUNCTION
-
-    FUNCTION SearchItemDescription(description : STRING, Strict : BOOLEAN) RETURNS BOOLEAN
-
-        DECLARE isFound : BOOLEAN
-        DECLARE myPrice : STRING
-
-        ItemCode = ""
-        ItemDescription = ""
-        Price = 0.0
-        NumberInStock = 0
-        myPrice = ""
-        isFound = FALSE
-
-        OPENFILE "StockFile.txt" FOR READ
-
-        OUTPUT "Item code  "
-        OUTPUT "Item description                        "
-        OUTPUT "Item price  "
-        OUTPUT "Item number in stock (quantity)"
-        OUTPUT "---------------------------------------------------------------------------------------"
-
-        WHILE NOT EOF("StockFile.txt")
-            READFILE "StockFile.txt", StockRecord
-            SRec = SPLIT(StockRecord, "#")
-            ItemCode = TRIM(SRec[0])
-            ItemDescription = TRIM(SRec[1])
-            Price = SRec[2]
-            NumberInStock = SRec[3]
-
-            IF Strict = TRUE THEN
-                IF ItemDescription = description THEN isFound = TRUE
-            ELSE
-                IF UPPER(ItemDescription) = UPPER(description) THEN isFound = TRUE
-            END IF
-
-            IF isFound = TRUE THEN
-                IF UPPER(ItemDescription) = UPPER(description) THEN
-                    OUTPUT ItemCode & SPACE(9)
-                    OUTPUT ItemDescription & SPACE(40 - LENGTH(ItemDescription))
-                    myPrice = FORMAT(Price, "##########.00")
-                    OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
-                    OUTPUT NumberInStock
-                END IF
-            END IF
-        END WHILE
-        CLOSEFILE "StockFile.txt"
-
-        RETURN isFound
-    END FUNCTION
-
-    FUNCTION ValidItemCode(Code : STRING) RETURNS BOOLEAN
-        IF LENGTH(Code) = 2 AND _
-            (LEFT(Code, 1) >= "A" AND LEFT(Code, 1) <= "Z") AND _
-            IsNumeric(RIGHT(Code, 1)) THEN
-            RETURN TRUE
-        ELSE
-            RETURN FALSE
         END IF
-    END FUNCTION
+    END WHILE
+    CLOSEFILE "StockFile.txt"
+
+    RETURN isFound
+END FUNCTION
+
+FUNCTION ValidItemCode(Code : STRING) RETURNS BOOLEAN
+    IF LENGTH(Code) = 2 AND _
+        (LEFT(Code, 1) >= "A" AND LEFT(Code, 1) <= "Z") AND _
+        IsNumeric(RIGHT(Code, 1)) THEN
+        RETURN TRUE
+    ELSE
+        RETURN FALSE
+    END IF
+END FUNCTION
