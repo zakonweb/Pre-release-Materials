@@ -1,0 +1,18 @@
+A1#Case Compact#5#85
+A2#Case Tower#50#100
+B1#RAM 8 GB#9.99#95
+B2#RAM 16 GB#49.99#49
+B3#RAM 32 GB#99.99#65
+C1#Main Hard Disk Drive 1 TB HDD#9.99#52
+C2#Main Hard Disk Drive 2 TB HDD#9.99#87
+C3#RAM 8 GB#29.99#12
+D1#Solid State Drive 240 GB SSD#9.99#50
+D2#Solid State Drive 480 GB SSD#119.99#83
+E1#Second Hard Disk Drive 1 TB HDD#49.99#32
+E2#Second Hard Disk Drive 2 TB HDD#89.99#15
+E3#Second Hard Disk Drive 4 TB HDD#129.99#56
+F1#Optical Drive DVD/Blu-Ray Player#50#41
+F2#Optical Drive DVD/Blu-Ray Re-writer#100#25
+G1#Operating System Standard Version#100#73
+G2#Operating System Professional Version#175#22
+Z1#www.zakonweb.com#1009.95#175

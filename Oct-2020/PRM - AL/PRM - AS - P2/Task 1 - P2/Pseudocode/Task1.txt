@@ -1,0 +1,320 @@
+﻿    //TASK 1 – Algorithms, arrays and pseudocode
+    //The following four 1D arrays can store different pieces of data about Stock items in a shop:
+    //Array identifier 	Data type
+    //ItemCode 		    STRING
+    //ItemDescription 	STRING
+    //Price 			    REAL
+    //NumberInStock      INTEGER
+
+    CONSTANT items = 17
+    DECLARE ItemCode: ARRAY[1:items] OF STRING
+    DECLARE ItemDescription: ARRAY[1:items] OF STRING
+    DECLARE Price: ARRAY[1:items] OF REAL
+    DECLARE NumberInStock: ARRAY[1:items] OF INTEGER
+
+    PROCEDURE Main()
+        DECLARE Choice : INTEGER = 0
+        CALL Initialise()
+        WHILE Choice <> 8
+            OUTPUT "AS Computer Science 9608, Pre Release Material (All Variants) -- Oct/Nov 2020"
+            OUTPUT "Simulator by Zak; http://www.zakonweb.com"
+            OUTPUT "------------------------------------------------------------------------------"
+            OUTPUT "MENU - TASK 1"
+            OUTPUT "1. Enter data into arrays."
+            OUTPUT "2. Populate arrays automatically."
+            OUTPUT "3. Display complete data captured in arrays."
+            OUTPUT "4. Task 1.1: Search for a specific value in ItemDescription."
+            OUTPUT "5. Task 1.2: Search for multiple instances of the value."
+            OUTPUT "6. Task 1.3: Search & output the corresponding values from all arrays."
+            OUTPUT "7. Task 1.4: Display all the information about items in Stock below a given level."
+            OUTPUT "8. Quit"
+            OUTPUT "Enter choice [1-8]... "
+			INPUT Choice
+
+            CASE OF Choice
+                1 : CALL PopulateDataEntry()
+                2 : CALL PopulateAuto()
+                3 : CALL DisplayAllRecords()
+                4 : CALL Task11()
+                5 : CALL Task12()
+                6 : CALL Task13()
+                7 : CALL Task14()
+                8 //Quit App
+                OTHERWISE: OUTPUT "Wrong choice. Please chose an option between 1-8."
+            END CASE
+        END WHILE
+    END PROCEDURE 
+
+    PROCEDURE Task11()
+        //TASK 1.1
+        //Design an algorithm to search for a specific value in ItemDescription and, 
+        //IF found, to output the array index where the value is found. 
+        //Output a suitable message if the value is not found.
+
+        DECLARE Description : STRING = ""
+        DECLARE isStrict : CHARACTER = ''
+        DECLARE Strict : BOOLEAN
+        DECLARE Position : INTEGER = 0
+
+        OUTPUT "Enter item description to search for: "
+        INPUT Description 
+
+        OUTPUT "Do you want strict searching (Y/N): "
+        INPUT UPPER(isStrict)
+        IF isStrict = 'Y' THEN Strict = TRUE
+
+        Position = SearchUniqueItemDescription(Description, Strict)
+        IF Position = 0 THEN
+            OUTPUT Description & " is not found in Stock."
+        ELSE
+            OUTPUT Description & " is found in Stock at location: " & NUM_TO_STRING(Position))
+        END IF
+    END PROCEDURE
+
+    PROCEDURE Task12()
+        //TASK 1.2
+        //Consider the difference between algorithms that search 
+        //For a single or multiple instance of the value.
+
+        DECLARE Description : STRING = ""
+
+        OUTPUT "Enter item description to search for:"
+        INPUT Description 
+
+        CALL SearchMultipleItemDescription(Description)
+    END PROCEDURE
+
+    PROCEDURE Task13()
+        //TASK 1.3
+        //Extend the algorithm from Task 1.1 TO output 
+        //the corresponding values from the other arrays.
+
+        DECLARE Description : STRING = ""
+        DECLARE isStrict : CHARACTER = ''
+        DECLARE Strict : BOOLEAN
+        DECLARE Position : INTEGER = 0
+
+        OUTPUT "Enter item description TO search FOR: "
+        INPUT Description 
+
+        OUTPUT "Do you want strict searching (Y/N): "
+        INPUT isStrict 
+        IF UPPER(isStrict) = 'Y' THEN Strict = TRUE
+
+        Position = SearchUniqueItemDescription(Description, Strict)
+        IF Position = 0 THEN
+            OUTPUT Description & " is not found in Stock."
+        ELSE
+            OUTPUT Description & " is found in Stock at location: " & NUM_TO_STRING(Position)
+            OUTPUT "Item code: " & ItemCode[Position]
+            OUTPUT "Item description: " & ItemDescription[Position]
+            OUTPUT "Item price: " & NUM_TO_STRING(Price[Position])
+            OUTPUT "Item number in Stock (quantity): " & NUM_TO_STRING(NumberInStock[Position])
+        END IF
+    END PROCEDURE
+
+    PROCEDURE Task14()
+        //TASK 1.4
+        //Write program code to produce a report displaying
+        DECLARE StockLevel : INTEGER = 0
+
+        OUTPUT "Enter item level to search for: "
+        INPUT INT(StockLevel)
+
+        CALL DisplayRecordsBelowLevel(StockLevel)
+    END PROCEDURE
+
+    PROCEDURE Initialise()
+        //Initialise all SD arrays used
+        DECLARE x : INTEGER
+        FOR x = 1 TO items
+            ItemCode[x] = ""
+            ItemDescription[x] = ""
+            Price[x] = 0.0
+            NumberInStock[x] = 0
+        NEXT
+    END PROCEDURE
+
+    PROCEDURE PopulateDataEntry()
+        //Populate all arrays in corresponding records' data entry manner
+        DECLARE x : INTEGER = 0
+
+        FOR x = 1 TO items
+            OUTPUT "Item Number: " & NUM_TO_STRING[x]
+            OUTPUT "--------------"
+
+            OUTPUT "Enter item code: "
+            INPUT ItemCode[x] 
+
+            OUTPUT "Enter item description: "
+            INPUT ItemDescription[x] 
+
+            OUTPUT "Enter item price: "
+            INPUT Price[x] 
+
+            OUTPUT "Enter item number in Stock (quantity): "
+            INPUT NumberInStock[x] 
+        NEXT
+    END PROCEDURE
+
+    PROCEDURE PopulateAuto()
+        //Auto populate the SD arrays using predetermined values
+        ItemCode[1] = "A1"
+        ItemCode[2] = "A2"
+        ItemCode[3] = "B1"
+        ItemCode[4] = "B2"
+        ItemCode[5] = "B3"
+        ItemCode[6] = "C1"
+        ItemCode[7] = "C2"
+        ItemCode[8] = "C3"
+        ItemCode[9] = "D1"
+        ItemCode[10] = "D2"
+        ItemCode[11] = "E1"
+        ItemCode[12] = "E2"
+        ItemCode[13] = "E3"
+        ItemCode[14] = "F1"
+        ItemCode[15] = "F2"
+        ItemCode[16] = "G1"
+        ItemCode[17] = "G2"
+
+        ItemDescription[1] = "Case Compact"
+        ItemDescription[2] = "Case TOwer"
+        ItemDescription[3] = "RAM 8 GB"
+        ItemDescription[4] = "RAM 16 GB"
+        ItemDescription[5] = "RAM 32 GB"
+        ItemDescription[6] = "Main Hard Disk Drive 1 TB HDD"
+        ItemDescription[7] = "Main Hard Disk Drive 2 TB HDD"
+        ItemDescription[8] = "RAM 8 GB"
+        ItemDescription[9] = "Solid State Drive 240 GB SSD"
+        ItemDescription[10] = "Solid State Drive 480 GB SSD"
+        ItemDescription[11] = "Second Hard Disk Drive 1 TB HDD"
+        ItemDescription[12] = "Second Hard Disk Drive 2 TB HDD"
+        ItemDescription[13] = "Second Hard Disk Drive 4 TB HDD"
+        ItemDescription[14] = "Optical Drive DVD/Blu-Ray Player"
+        ItemDescription[15] = "Optical Drive DVD/Blu-Ray Re-writer"
+        ItemDescription[16] = "Operating System Standard Version"
+        ItemDescription[17] = "Operating System Professional Version"
+
+        Price[1] = 75.0
+        Price[2] = 150.0
+        Price[3] = 79.99
+        Price[4] = 149.99
+        Price[5] = 299.99
+        Price[6] = 49.99
+        Price[7] = 89.99
+        Price[8] = 129.99
+        Price[9] = 59.99
+        Price[10] = 119.99
+        Price[11] = 49.99
+        Price[12] = 89.99
+        Price[13] = 129.99
+        Price[14] = 50.0
+        Price[15] = 100.0
+        Price[16] = 100.0
+        Price[17] = 175.0
+
+        NumberInStock[1] = 85
+        NumberInStock[2] = 100
+        NumberInStock[3] = 95
+        NumberInStock[4] = 49
+        NumberInStock[5] = 65
+        NumberInStock[6] = 52
+        NumberInStock[7] = 87
+        NumberInStock[8] = 12
+        NumberInStock[9] = 50
+        NumberInStock[10] = 83
+        NumberInStock[11] = 32
+        NumberInStock[12] = 15
+        NumberInStock[13] = 56
+        NumberInStock[14] = 41
+        NumberInStock[15] = 25
+        NumberInStock[16] = 73
+        NumberInStock[17] = 22
+
+        OUTPUT "All arrays are populated successfully."
+        CALL DisplayAllRecords()
+    END PROCEDURE
+
+    FUNCTION SearchUniqueItemDescription(Description : STRING, Strict : BOOLEAN) : INTEGER
+        DECLARE Position : INTEGER = 0
+        DECLARE x : INTEGER = 0
+        DECLARE isFound : BOOLEAN = FALSE
+
+        FOR x = 1 TO items
+            IF Strict = TRUE THEN
+                IF ItemDescription[x] = Description THEN isFound = TRUE
+            ELSE
+                IF UPPER(ItemDescription[x]) = UPPER(Description) THEN isFound = TRUE
+            END IF
+
+            IF isFound = TRUE THEN
+                Position = x
+                EXIT FOR
+            END IF
+        NEXT
+
+        IF isFound = TRUE THEN
+            RETURN Position
+        ELSE
+            RETURN 0
+        END IF
+    END FUNCTION
+
+    PROCEDURE SearchMultipleItemDescription(Description : STRING)
+        DECLARE x : INTEGER = 0
+        DECLARE isFound : BOOLEAN = FALSE
+
+        FOR x = 1 TO items
+            IF UPPER(ItemDescription[x]) = UPPER(Description) THEN
+                isFound = TRUE
+				
+                OUTPUT "Item code: " & ItemCode[x]
+                OUTPUT "Item description: " & ItemDescription[x]
+                OUTPUT "Item price: " & NUM_TO_STRING(Price[x])
+                OUTPUT "Item number in Stock (quantity): " & NumberInStock[x]
+            END IF
+        NEXT
+
+        IF isFound = FALSE THEN
+            OUTPUT "Item: " & Description & " is not found."
+        END IF
+    END PROCEDURE
+
+    PROCEDURE DisplayAllRecords()
+        DECLARE x : INTEGER = 0
+        DECLARE myPrice : STRING = ""
+
+        OUTPUT "Item code  "
+        OUTPUT "Item description                        "
+        OUTPUT "Item price  "
+        OUTPUT "Item number in Stock (quantity)"
+        OUTPUT "----------------------------------------------------------------------------"
+        FOR x = 1 TO items
+            OUTPUT ItemCode[x] + SPACE(9)
+            OUTPUT ItemDescription[x] & SPACE(40 - LENGTH(ItemDescription[x]))
+            myPrice = FORMAT(Price[x], "##########.00")
+            OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
+            OUTPUT NumberInStock[x]
+        NEXT
+    END PROCEDURE
+
+    PROCEDURE DisplayRecordsBelowLevel(Level : INTEGER)
+        DECLARE x : INTEGER = 0
+        DECLARE myPrice : STRING = ""
+
+        OUTPUT "Records below level: " & Level
+        OUTPUT "Item code  "
+        OUTPUT "Item description                        "
+        OUTPUT "Item price  "
+        OUTPUT "Item number in Stock (quantity)"
+        OUTPUT "-------------------------------------------------------------------------"
+        FOR x = 1 TO items
+            IF NumberInStock[x] < Level THEN
+                OUTPUT ItemCode[x] + SPACE(9)
+                OUTPUT ItemDescription[x] & SPACE(40 - LENGTH(ItemDescription[x]))
+                myPrice = FORMAT(Price[x], "##########.00")
+                OUTPUT myPrice & SPACE(12 - LENGTH(myPrice))
+                OUTPUT NumberInStock[x]
+            END IF
+        NEXT
+    END PROCEDURE
