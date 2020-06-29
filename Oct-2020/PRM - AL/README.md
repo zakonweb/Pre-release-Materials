@@ -4,7 +4,8 @@
 ## October/November 2020
 ### P2 & P4 | VARIANT 1,2 & 3
 Complete Solutions
-Using Python, Visual Basic.net, PROLOG, Pseudocodes, Flowcharts & Structured English. 
+Using Python, Visual Basic.net, PROLOG, Pseudocodes, Flowcharts & Structured English.
+
 Simulators (Executable files) made in VB.net are also included for hands-on experience
 
 **INTRODUCTION:**
@@ -13,14 +14,24 @@ Zafar Ali Khan "ZAK" is an A and O level Computer Science Pakistani educator, en
 ZAK is teaching a wide spectrum of learners for his subjects, mainly focusing on Computer Science 2210, 9608, and Computing 9691. 
 
 Website:   http://www.zakonweb.com
+
 Workshops: http://www.zakathon.com 
+
 Phone App: https://bit.ly/ZakApp
 
 Online Discussions Group:
+
 OL http://www.zakonweb.com/ogroup
+
 AL http://www.zakonweb.com/agroup 
+
+
 YouTube: http://www.zakonweb.com/videos
+
 Blog: http://www.zakonweb.com/blog 
+
 Facebook: /olevelcomputer, /alevelcomputer
+
 Email:  zak@zakonweb.com
+
 WhatsApp/Call: +923 111 222 ZAK (925)
