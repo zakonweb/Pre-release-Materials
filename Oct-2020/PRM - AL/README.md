@@ -11,7 +11,8 @@ Simulators (Executable files) made in VB.net are also included for hands-on expe
 
 **INTRODUCTION:**
 ![Zak Logo](http://www.zakonweb.com/images/logo-rev1.png)
-Format: ![Alt Text](http://www.zakonweb.com)
+Format: ![Visit our website for complete content.](http://www.zakonweb.com)
+
 
 Zafar Ali Khan "ZAK" is an A and O level Computer Science Pakistani educator, entrepreneur, and former programmer. He supports a free online education platform to impart O and A level resources. His resources include notes, video lectures, online discussion groups, and a full-scale subject website.
 
