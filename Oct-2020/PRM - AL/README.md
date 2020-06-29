@@ -10,6 +10,9 @@ Using Python, Visual Basic.net, PROLOG, Pseudocodes, Flowcharts & Structured Eng
 Simulators (Executable files) made in VB.net are also included for hands-on experience.
 
 **INTRODUCTION:**
+![Zak Logo](http://www.zakonweb.com/images/logo-rev1.png)
+Format: ![Alt Text](http://www.zakonweb.com)
+
 Zafar Ali Khan "ZAK" is an A and O level Computer Science Pakistani educator, entrepreneur, and former programmer. He supports a free online education platform to impart O and A level resources. His resources include notes, video lectures, online discussion groups, and a full-scale subject website.
 
 ZAK is teaching a wide spectrum of learners for his subjects, mainly focusing on Computer Science 2210 & 9608. 
