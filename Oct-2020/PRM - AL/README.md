@@ -4,14 +4,15 @@
 ## October/November 2020
 ### P2 & P4 | VARIANT 1,2 & 3
 Complete Solutions
+
 Using Python, Visual Basic.net, PROLOG, Pseudocodes, Flowcharts & Structured English.
 
-Simulators (Executable files) made in VB.net are also included for hands-on experience
+Simulators (Executable files) made in VB.net are also included for hands-on experience.
 
 **INTRODUCTION:**
 Zafar Ali Khan "ZAK" is an A and O level Computer Science Pakistani educator, entrepreneur, and former programmer. He supports a free online education platform to impart O and A level resources. His resources include notes, video lectures, online discussion groups, and a full-scale subject website.
 
-ZAK is teaching a wide spectrum of learners for his subjects, mainly focusing on Computer Science 2210, 9608, and Computing 9691. 
+ZAK is teaching a wide spectrum of learners for his subjects, mainly focusing on Computer Science 2210 & 9608. 
 
 Website:   http://www.zakonweb.com
 
