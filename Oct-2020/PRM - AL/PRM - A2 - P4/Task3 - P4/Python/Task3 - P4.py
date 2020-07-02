@@ -154,5 +154,5 @@ def OutputAllNodes():
         # follow the pointer to the next node
         CurrentNodePtr = Pointers[CurrentNodePtr]
     input("Press enter key to continue...")
-
+    
 main()
