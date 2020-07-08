@@ -184,5 +184,4 @@ def task23():
     print("The most popular baguette filling was {} with an order of {}%".format(mostPopularName, mostPopularPerc))
     print("The least popular baguette filling was {} with an order of {}%".format(leastPopularName, leastPopularPerc))
 
-
 task23()
