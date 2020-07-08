@@ -343,4 +343,5 @@
         Console.WriteLine("The most popular baguette filling was " & mostPopularName & " with an order of " & mostPopularPerc & "%")
         Console.WriteLine("The least popular baguette filling was " & leastPopularName & " with an order of " & leastPopularPerc & "%")
     End Sub
+
 End Module
