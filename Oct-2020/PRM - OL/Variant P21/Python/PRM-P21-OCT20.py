@@ -105,7 +105,6 @@ if 26 <= driverAge <= 70:
     if yearsWithoutClaim >= 2: newCustDiscountPerc = 10
 
 print("The amount of money saved by applying the 'new customer discount' is: ${}".format(newPrice * (newCustDiscountPerc / 100)))
-
 # ADDITIONAL CODE FOR TASK 2 ENDS HERE
 
 print("The price to insure your car is: ${}".format(newPrice))
