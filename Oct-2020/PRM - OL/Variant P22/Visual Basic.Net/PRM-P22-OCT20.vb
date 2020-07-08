@@ -425,5 +425,4 @@
         Console.WriteLine("Total price of the computer after discount: " & ComputerPrice)
         Console.ReadKey()
     End Sub
-
 End Module
