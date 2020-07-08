@@ -175,4 +175,5 @@
         Console.WriteLine("The price to insure your car is: $" & newPrice)
         Console.ReadKey()
     End Sub
+    
 End Module
