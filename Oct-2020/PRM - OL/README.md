@@ -9,6 +9,8 @@ Using Python, Visual Basic.net, and Pseudocodes.
 
 Simulators (Executable files) made in VB .net are also included for hands-on experience.
 
+Expected questions & answers.
+
 **INTRODUCTION:**
 
 ![Zak Logo](http://www.zakonweb.com/images/logo-rev1.png)
