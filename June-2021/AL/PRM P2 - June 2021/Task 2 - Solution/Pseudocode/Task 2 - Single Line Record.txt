@@ -1,0 +1,396 @@
+﻿// TASK 2 – Files
+// By Zafar Ali Khan, www.zakonweb.com
+// Introduction
+// Candidates should be able to write programs to process text file data both in pseudocode and their
+// chosen programming language. It is suggested that each task is planned using pseudocode before
+// writing it in program code.
+
+    PROCEDURE Main()
+        DECLARE MenuChoice : INTEGER
+
+        WHILE MenuChoice <> 6 
+            OUTPUT "AS Computer Science 9608/22, Pre Release Material"
+            OUTPUT "For Single Line Record"
+            OUTPUT "1. Task 2.1"
+            OUTPUT "2. Task 2.2"
+            OUTPUT "3. Task 2.3"
+            OUTPUT "4. Task 2.4"
+            OUTPUT "5. Output all records"
+            OUTPUT "6. Quit"
+
+            OUTPUT 
+            OUTPUT "Enter menu choice... "
+            INPUT MenuChoice 
+            CASE MenuChoice
+                1 : CALL Task21()
+                2 : CALL Task22()
+                3 : CALL Task23()
+                4 : CALL appendRecord()
+                5 : CALL outputRecords()
+                6   //quit menu
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE
+        END WHILE
+    END PROCEDURE
+
+    // TASK 2.1
+    // Define a structure for a text file that could be used to store information about each student as a string.
+    // Each line of the file will store data for one student.
+    // Store at least three pieces of data. For example, you could store each student’s ID together with his or
+    // her email address and date of birth as follows:
+    // <Student ID><Email address><Date of birth>
+    // Define a fixed format for the Student ID, for example, two letters followed by four digits
+    // Define a fixed format for the date of birth, for example, "DDMMYY"
+    // An example STRING with this format would be:
+    // "SA1234SamArnold137@email.com250905"
+    // Write program code to:
+    // 1. open a new text file
+    // 2. prompt for the ID, email address and date of birth (validate if required)
+    // 3. form the STRING as shown
+    // 4. write the STRING to the file
+    // 5. repeat from step 2 for all students in the class
+    // 6. close the file
+    // Check the contents of the file using a text editor.
+
+   PROCEDURE Task21()
+        DECLARE MenuChoice : INTEGER
+        WHILE MenuChoice <> 3
+            
+            OUTPUT "AS Computer Science 9608/22, Pre Release Material"
+            OUTPUT "TASK 2"
+            OUTPUT "1. INPUT records and add to next record"
+            OUTPUT "2. Output all records"
+            OUTPUT "3. Quit"
+
+            OUTPUT ""  //Next Line
+            OUTPUT "Enter menu choice... "
+            INPUT MenuChoice 
+            CASE MenuChoice
+                1 : CALL addRecord()
+                2 : CALL outputRecords()
+                3 //Quit Task2.1
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE
+        END WHILE
+    END PROCEDURE
+
+    PROCEDURE addRecord()
+        DECLARE stuID, stuEmail, stuDOB, concatStr : STRING
+        DECLARE moreRec : Boolean ← False
+
+        OUTPUT "INPUT & add students to file"
+
+        OPENFILE "task2.txt" FOR WRITE
+        REPEAT
+            REPEAT
+                OUTPUT "INPUT student ID: "
+		INPUT stuID 
+            UNTIL validID(stuID) = True
+
+            REPEAT
+                OUTPUT "INPUT student email: "
+		INPUT stuEmail 
+            UNTIL isEmailValid(stuEmail) = True
+
+            REPEAT
+                OUTPUT "Input student date of birth: " 
+                INPUT stuDOB
+            UNTIL isDateValid(stuDOB) = True
+
+            concatStr ← stuID & stuEmail & stuDOB
+            WRITEFILE "task2.txt", concatStr
+
+            OUTPUT "Enter next record (true/false): "
+	    INPUT moreRec 
+        UNTIL moreRec = False
+
+        CLOSEFILE "task2.txt"
+    END PROCEDURE
+
+    //TASK 2.4
+    //Modify the program to allow the details of additional students to be append to the file.
+
+    PROCEDURE appENDRecord()
+        DECLARE stuID, stuEmail, stuDOB, concatStr : STRING
+        DECLARE moreRec : Boolean 
+        moreRec ← FLASE
+
+        OUTPUT "INPUT & add students to file"
+
+        OPENFILE "task2.txt" FOR APPEND
+        REPEAT
+            REPEAT
+                OUTPUT "INPUT student ID: "
+		INPUT stuID 
+            UNTIL validID(stuID) ← True
+
+            REPEAT
+                OUTPUT "INPUT student email: " 
+		INPUT stuEmail 
+            UNTIL isEmailValid(stuEmail) = True
+
+            REPEAT
+                OUTPUT "Input student date of birth: " 
+                INPUT stuDOB
+            UNTIL isDateValid(stuDOB) = True
+
+            concatStr ← stuID & stuEmail & stuDOB
+            WRITEFILE "task2.txt", concatStr
+
+            OUTPUT "Enter next record (true/false): "
+	    INPUT moreRec 
+        UNTIL moreRec = False
+        CLOSEFILE "task2.txt"
+    END PROCEDURE
+
+    PROCEDURE outputRecords()
+        DECLARE stuID, stuEmail, stuDOB concatStr : STRING
+
+        OUTPUT "Student ID" & Space(4) & " Student DOB" & Space(4) & "Student Email"
+        OUTPUT "----------" & Space(4) & " -----------" & Space(4) & "-------------"
+
+        OPENFILE "task2.txt" FOR INPUT
+        WHILE Not EOF("task2.txt")
+            READFILE "task2.txt", concatStr
+            stuID ← LEFT(concatStr, 6)
+            stuDOB ← RIGHT(concatStr, 6)
+            stuEmail ← MID(concatStr, 7, LEN(concatStr) - 12)
+
+            OUTPUT stuID & Space(9) & stuDOB & Space(10) & stuEmail
+        END WHILE
+        CLOSEFILE "task2.txt"
+
+        OUTPUT ""
+        OUTPUT "Press any key to continue..."
+
+    END PROCEDURE
+
+    //TASK 2.2
+    //Write a second program to search the file for a given Student ID AND output the email address if the ID
+    //was found, OR a suitable message if the ID was not found.
+    PROCEDURE Task22()
+        DECLARE stuID, stuEmail : STRING
+
+        OUTPUT ""
+        OUTPUT "INPUT student ID to search for: "
+        INPUT stuID 
+
+        stuEmail ← searchFullID(stuID)
+        IF stuEmail = "*****" 
+	  THEN
+            OUTPUT "Record not found...")
+          ELSE
+            OUTPUT "Email address of ID " & stuID & " is: " & stuEmail)
+        END IF
+
+        OUTPUT "Press any key to continue..."
+
+    END PROCEDURE
+
+    //TASK 2.3
+    //Modify the search code to also perform a subSTRING match on the Student ID. For example, search for
+    //all the Student IDs that begin with “AB”.
+    PROCEDURE Task23()
+        DECLARE stuID : STRING
+
+        OUTPUT "" //New Line
+        OUTPUT "INPUT part, OR the whole, of an ID to search for: "
+        INPUT stuID 
+
+        CALL searchPartialID(stuID)
+    END PROCEDURE
+
+    FUNCTION searchFullID(ByVal Val : STRING) Returns STRING
+        DECLARE isFound : Boolean ← False
+        DECLARE stuID, stuEmail, concatStr : STRING
+
+        OPENFILE "task2.txt" FOR INPUT
+        REPEAT
+
+            READFILE "task2.txt", concatStr
+
+            stuID ← Left(concatStr, 6)
+            stuEmail ← Mid(concatStr, 8, Len(concatStr) - 14)
+
+            IF UCase(val) = UCase(stuID) THEN isFound ← True
+
+        UNTIL EOF("task2.txt") = True OR isFound = True
+        CLOSEFILE "task2.txt"
+
+        IF isFound 
+	  THEN
+            Return stuEmail
+          ELSE
+            Return "*****"
+        END IF
+    END FUNCTION
+
+    PROCEDURE searchPartialID(ByVal val : STRING)
+    DECLARE stuID, stuEmail, stuDOB concatStr : STRING
+
+        OUTPUT "Student ID" & Space(4) & " Student DOB" & Space(4) & "Student Email"
+        OUTPUT "----------" & Space(4) & " -----------" & Space(4) & "-----------"
+
+        OPENFILE "task2.txt" FOR INPUT
+        WHILE Not EOF("task2.txt")
+            READFILE "task2.txt", concatStr
+            stuID ← LEFT(concatStr, 6)
+            stuDOB ← RIGHT(concatStr, 6)
+            stuEmail ← MID(concatStr, 7, LEN(concatStr) - 12)
+
+            IF LOCATE(UCase(stuID), UCase(val)) > 0 
+	      THEN
+                OUTPUT stuID & Space(9) & stuDOB & Space(10) & stuEmail
+            END IF
+        END WHILE
+        CLOSEFILE "task2.txt"
+
+        OUTPUT ""
+        OUTPUT "Press any key to continue...")
+    END PROCEDURE
+
+
+     // TASK 2.5
+     // Consider rules that could be applied to ensure the data entered is acceptable.
+     // Modify your program to incorporate these.
+     FUNCTION validID(ByVal Val : STRING) Returns Boolean
+        DECLARE CH : CHARACTER
+        DECLARE Count : INTEGER
+        DECLARE isValid : Boolean 
+
+        isValid ← TRUE
+
+        //validate STRING in Format AA9999. E.g. "AB1234"
+        IF Len(Val) = 6 
+ 	  THEN
+            IF Left(Val, 1) >= 'A' AND Left(Val, 1) <= 'Z' 
+	      THEN
+                IF Mid(Val, 2, 1) >= 'A' AND Mid(Val, 2, 1) <= 'Z' 
+	          THEN
+                    For Count ← 3 To 6
+                        CH ← Mid(Val, Count, 1)
+                        IF CH < '0' OR CH > '9' 
+			 THEN
+                            isValid ← False
+                            Exit For
+                        END IF
+                    Next Count
+                ELSE
+                    isValid ← False
+                END IF
+            ELSE
+                isValid ← False
+            END IF
+        ELSE
+            isValid ← False
+        END IF
+
+        Return isValid
+    END FUNCTION
+
+    // TASK 2.5
+    // Consider rules that could be applied to ensure the data entered is acceptable.
+    // Modify your program to incorporate these.
+    FUNCTION isEmailValid(ByVal strCheck : STRING) Returns Boolean
+        Try
+            DECLARE isValid : Boolean
+            DECLARE strREPEATmainType : STRING
+
+
+            Constant sInvalidChars ← "!#$%^&*()←+{}[]|\;:///?>,< "
+            DECLARE i : Integer
+
+            //Check to see if there is a double quote
+            isValid ← Not LOCATE(1, strCheck, Chr(34)) > 0
+            IF Not isValid THEN GoTo ExitFUNCTION
+
+            //Check to see if there are consecutive REPEATts
+            isValid ← Not LOCATE(1, strCheck, "..") > 0
+            If Not isValid THEN GoTo ExitFUNCTION
+
+            // Check for invalid characters.
+            IF LEN(strCheck) > Len(sInvalidChars) 
+			  THEN
+                For i ← 1 To Len(sInvalidChars)
+                    IF LOCATE(strCheck, Mid(sInvalidChars, i, 1)) > 0 
+		      THEN
+                        isValid ← False
+                        GoTo ExitFUNCTION
+                    END IF
+                Next
+            ELSE
+                For i ← 1 To Len(strCheck)
+                    IF LOCATE(sInvalidChars, Mid(strCheck, i, 1)) > 0 
+		      THEN
+                        isValid ← False
+                        GoTo ExitFUNCTION
+                    END IF
+                Next
+            END IF
+
+            IF LOCATE(1, strCheck, "@") > 1 
+	      THEN //Check for an @ symbol
+                isValid ← Len(Left(strCheck, LOCATE(1, strCheck, "@") - 1)) > 0
+              ELSE
+                isValid ← False
+            END IF
+            IF Not isValid THEN GoTo ExitFUNCTION
+
+            strCheck ← Right(strCheck, Len(strCheck) - LOCATE(1, strCheck, "@"))
+            isValid ← Not LOCATE(1, strCheck, "@") > 0 //Check to see if there are too many @//s
+            IF Not isValid THEN GoTo ExitFUNCTION
+
+            strREPEATmainType ← Right(strCheck, Len(strCheck) - LOCATE(1, strCheck, "."))
+            isValid ← Len(strREPEATmainType) > 0 AND LOCATE(1, strCheck, ".") < Len(strCheck)
+            IF Not isValid THEN GoTo ExitFUNCTION
+
+            strCheck ← Left(strCheck, Len(strCheck) - Len(strREPEATmainType) - 1)
+            REPEAT Until LOCATE(1, strCheck, ".") <= 1
+                IF Len(strCheck) >= LOCATE(1, strCheck, ".") 
+		  THEN
+                    strCheck ← Left(strCheck, Len(strCheck) - (LOCATE(1, strCheck, ".") - 1))
+                  ELSE
+                    isValid ← False
+                    GoTo ExitFUNCTION
+                END IF
+            END WHILE
+            IF strCheck = "." OR Len(strCheck) = 0 THEN isValid ← False
+
+ExitFUNCTION:
+            Return isValid
+        Catch
+            Return False
+        END Try
+
+    END FUNCTION
+
+    // TASK 2.5
+    // Consider rules that could be applied to ensure the data entered is acceptable.
+    // Modify your program to incorporate these.
+    FUNCTION isDateValid(dateVal As STRING) As Boolean
+        DECLARE CH : CHRACTER
+        DECLARE Count : INTEGER
+        DECLARE isValid : BOOLEAN
+
+        isValid ← True
+
+        'dateValidate STRING in Format AA9999. E.g. "AB1234"
+        IF LEN(dateVal) = 6 Then
+            FOR Count ← 1 To 6
+                CH ← Mid(dateVal, Count, 1)
+                If CH < '0' Or CH > '9' Then
+                    isValid ← False
+                    Exit FOR
+                End If
+            NEXT Count
+
+            IF isValid Then
+                If VAL(Left(dateVal, 2)) > 31 THEN isValid ← False
+                If VAL(Mid(dateVal, 3, 2)) > 12 THEN isValid ← False
+            End If
+        ELSE
+            isValid ← False
+        END IF
+
+        RETURN isValid
+    END FUNCTION

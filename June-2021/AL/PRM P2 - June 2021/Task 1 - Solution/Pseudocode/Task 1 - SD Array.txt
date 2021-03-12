@@ -1,0 +1,260 @@
+﻿// TASK 1 – With Single Dimensional Arrays
+// By Zafar Ali Khan, www.zakonweb.com
+// Introduction:
+// Candidates should be able to write programs to process array data both in pseudocode and in their
+// chosen programming language. It is suggested that each task is planned using pseudocode befORe
+// writing it in program code.
+
+    Constant UB ← 2
+    DECLARE stuRecSD : ARRAY [1: UB] OF STRING
+
+        DECLARE MenuChoice : Integer
+	MenuChoice ← 0
+
+        WHILE MenuChoice <> 5
+            OUTPUT "Computer Science 9608/22, Pre Release Material"
+            OUTPUT "FOR SD Array"
+            OUTPUT "1. Task 1.1"
+            OUTPUT "2. Task 1.2"
+            OUTPUT "3. Task 1.3"
+            OUTPUT "4. Task 1.4"
+            OUTPUT "5. Quit"
+
+            OUTPUT "Enter menu choice... "
+            INPUT MenuChoice
+            CASE OF MenuChoice
+                1 : CALL Task11()
+                2 : CALL Task12()
+                3 : CALL Task13()
+                4 : CALL Task14()
+                5 //Quit Program
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE
+        END WHILE
+
+    // TASK 1.1
+    // A 1D array of STRING data type will be used to stORe the name of each 
+    // student in a class together with their email address : follows:
+    // <Student Name>'*'<Email address>'*'<Date of birth>
+    // An example STRING with this format would be:
+    // "Sam Arnold*SamArnold137@email.com*25Sep2005"
+    // Write program code to:
+    // 1. declare the array
+    // 2. prompt and input name and email address
+    // 3. form the STRING as shown
+    // 4. write the STRING to the NEXT array element
+    // 5. repeat from step 2 fOR all students in the class
+    // 6. output each element of the array in a suitable format, together with 
+    //    explanatory text such as column headings
+
+    PROCEDURE Task11()
+        DECLARE MenuChoice : Integer
+        WHILE MenuChoice <> 3
+            
+            OUTPUT "AS Computer Science 9608/22, Pre Release Material"
+            OUTPUT "1. Input recORds and add to NEXT array element"
+            OUTPUT "2. Output array elements"
+            OUTPUT "3. Quit"
+
+            OUTPUT "Enter menu choice... "
+            INPUT MenuChoice
+            CASE OF MenuChoice
+                1 : CALL addElementSD()
+                2 : CALL outputElementsSD()
+                3   //Quit Task1.1
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE 
+        END CASE 
+    END PROCEDURE
+
+    PROCEDURE addElementSD()
+        DECLARE stuName, stuEmail, stuDOB, concatStr : STRING
+        DECLARE i : Integer
+
+        OUTPUT "Input & add " & UB & " students to an SD array"
+        FOR i ← 1 To UB
+            OUTPUT i & ". Input student name: " 
+	    INPUT stuName
+			
+            OUTPUT i & ". Input student email: "
+	    INPUT stuEmail
+
+            OUTPUT i & ". Input student date of birth: "
+	    INPUT stuDOB
+
+            concatStr ← stuName & '*' & stuEmail & '*' & stuDOB
+            stuRecSD[i] ← concatStr
+        NEXT
+    END PROCEDURE
+
+    PROCEDURE outputElementsSD()
+        DECLARE i, starPos : Integer
+        DECLARE stuName, stuEmail, stuDOB, concatStr : STRING
+
+        OUTPUT "Record " & Space(4) & "Student Name" & Space(12) & " Student Email" & Space(12) & " Student Date of Birth"
+        OUTPUT "-------" & Space(4) & "------------" & Space(12) & " -------------" & Space(12) & " ---------------------"
+        FOR i ← 1 To UB
+            IF stuRecSD[i] <> "*****" 
+	      THEN //Check for Task 1.2
+                concatStr ← stuRecSD[i]
+                starPos ← LOCATE(concatStr, '*')
+                stuName ← LEFT(concatStr, starPos - 1)
+
+		starPos1 ← LOCATE(starPos + 1, concatStr, "*")
+                stuEmail ← MID(concatStr, starPos + 1, starPos1 - starPos - 1)
+
+                stuDOB ← RIGHT(concatStr, LEN(concatStr) - starPos1)
+
+                OUTPUT i & Space(10) & stuName & Space(25 - Len(stuName)) & _
+                                  stuEmail & Space(26 - Len(stuEmail)) & stuDOB
+            END IF
+        NEXT
+    END PROCEDURE
+
+    // TASK 1.2
+    // Consider what happens when a student leaves the class and their data item is deleted from the array.
+    // Decide on a way of identifying unused array elements and only output elements that contain student
+    // details. Modify your program to include this.
+
+    PROCEDURE Task12()
+        DECLARE stuName : STRING
+        DECLARE MenuChoice : Integer
+        WHILE MenuChoice <> 3
+
+            OUTPUT "AS Computer Science 9608/22, Pre Release Material"
+            OUTPUT "1. Delete record"
+            OUTPUT "2. Output array elements"
+            OUTPUT "3. Quit"
+
+            INPUT MenuChoice 
+            CASE OF MenuChoice
+                1
+                    OUTPUT "Input student name to delete: "
+                    INPUT stuName 
+
+                    IF delRecORd(stuName) = True 
+		      THEN
+                        OUTPUT "RecORd deleted successfully."
+                      ELSE
+                        OUTPUT "RecORd not found..."
+                    END IF
+
+                2 : outputElementsSD()
+                3   //Quit Task1.2
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE
+        END WHILE
+    END PROCEDURE
+
+    FUNCTION delRecord(ByVal stuName : STRING) : Boolean
+        DECLARE index : Integer
+
+        index ← searchFullName(stuName)
+        IF index = 0 
+          THEN
+            Return False
+          ELSE
+            stuRecSD[index] ← "*****"
+            Return True
+        END IF
+    END FUNCTION
+
+    //TASK 1.3
+    //Extend your program so that after assigning values to the array, the program will prompt the user to
+    //input a name, and THEN search the array to find that name and output the corresponding email address.
+
+    PROCEDURE Task13()
+        DECLARE stuName, stuEmail, concatStr : STRING
+        DECLARE index, starPos, starPos1 : Integer
+
+        OUTPUT "Input student name to search for: "
+        INPUT stuName 
+
+        index ← searchFullName(stuName)
+        IF index = 0 
+          THEN
+            OUTPUT "Record not found..."
+          ELSE
+            concatStr ← stuRecSD[index]
+            starPos ← LOCATE(concatStr, '*')
+	    starPos1 ← LOCATE(starPos + 1, concatStr, "*")
+            stuEmail ← MID(concatStr, starPos + 1, starPos1 - starPos - 1)
+
+            OUTPUT "Email address of " & stuName & " is: " & stuEmail
+        END IF
+
+    END PROCEDURE
+
+    // TASK 1.4
+    // Modify your program so that it will:
+    // prompt the user to input part, OR the whole, of a name
+    // search the whole array to find the search term within the <StudentName> STRING
+    // for each array element in which the search term is found within the <StudentName> STRING, output
+    // the element in a suitable format.
+
+    PROCEDURE Task14()
+        DECLARE stuName : STRING
+
+        OUTPUT "Input part, or the whole, of a name to search for: "
+        INPUT stuName 
+
+        CALL searchPartialName(stuName)
+
+    END PROCEDURE
+
+    FUNCTION searchFullName(ByVal val : STRING) RETURNS INTEGER
+        DECLARE i, starPos, starPos1 : Integer
+        DECLARE isFound : Boolean
+        DECLARE stuName, concatStr : STRING
+
+	isFound ← FALSE
+        i ← 0
+
+        REPEAT
+            i ← i + 1
+            IF stuRecSD[i] <> "*****" 
+	      THEN //Check fOR Task 1.2
+                concatStr ← stuRecSD[i]
+                starPos ← LOCATE(concatStr, '*')
+                stuName ← LEFT(concatStr, starPos - 1)
+
+                IF UPPER(val) = UPPER(stuName) THEN isFound ← True
+            END IF
+        UNTIL i = UB OR isFound = TRUE
+
+        IF isFound 
+	  THEN
+            Return i
+          ELSE
+            Return 0
+        END IF
+    END FUNCTION
+
+    PROCEDURE searchPartialName(ByVal val : STRING)
+        DECLARE i, starPos, starPos1 : Integer
+        DECLARE stuName, stuEmail, stuDOB, concatStr : STRING
+
+        OUTPUT "RecORd " & Space(4) & "Student Name" & Space(12) & " Student Email" & Space(12) & " Student Date of Birth"
+        OUTPUT "-------" & Space(4) & "------------" & Space(12) & " -------------" & Space(12) & " ---------------------"
+        FOR i ← 1 To UB
+            IF stuRecSD[i] <> "*****" 
+	      THEN //Check for Task 1.2
+                concatStr ← stuRecSD[i]
+                starPos ← LOCATE(concatStr, '*')
+                stuName ← LEFT(concatStr, starPos - 1)
+
+		starPos1 ← LOCATE(starPos + 1, concatStr, "*")
+                stuEmail ← MID(concatStr, starPos + 1, starPos1 - starPos - 1)
+
+                stuDOB ← RIGHT(concatStr, LEN(concatStr) - starPos1)
+
+
+                IF LOCATE(UPPER(stuName), UPPER(val)) > 0 
+		  THEN
+                    OUTPUT i & Space(10) & stuName & Space(25 - Len(stuName)) & _
+                                           stuEmail & Space(26 - Len(stuEmail)) & stuDOB
+                END IF
+            END IF
+        NEXT
+
+    END PROCEDURE

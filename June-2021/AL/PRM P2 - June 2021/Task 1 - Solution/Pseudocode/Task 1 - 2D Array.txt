@@ -1,0 +1,324 @@
+// TASK 1 – Arrays
+// By Zafar Ali Khan, www.zakonweb.com
+// Introduction:
+// Candidates should be able to write programs to process array data both in pseudocode and in their
+// chosen programming language. It is suggested that each task is planned using pseudocode before
+// writing it in program code.
+
+// TASK 1.5
+// Convert your design of SD array to use a 2D array and add additional pieces of information for each student.
+// For example:
+// Array element    Information     Example data
+// MyArray[1,1]     Student Name    "Sam Arnold"
+// MyArray[1,2]     Email Address   ""SamArnold137@email.com"
+// MyArray[1,3]     Date of Birth   "25 Sep 2005"
+// MyArray[1,4]     Student ID      "C3452-B"
+// MyArray[1,5]     Tutor ID        "CHL"
+
+    Constant UB ← 2
+    DECLARE stuRec2D : ARRAY[1:UB, 1:5] OF STRING
+
+    PROCEDURE Main()
+        DECLARE MenuChoice : INTEGER
+        MenuChoice ← 0
+
+        WHILE MenuChoice <> 5
+            OUTPUT "AS Computer Science 9608/22, Pre Release Material"
+            OUTPUT "Task 1.5 & 1.6 done over Tasks 1.1 to 1.4 FOR 2D Array"
+            OUTPUT "1. Task 1.1"
+            OUTPUT "2. Task 1.2"
+            OUTPUT "3. Task 1.3"
+            OUTPUT "4. Task 1.4"
+            OUTPUT "5. Quit"
+
+            OUTPUT "" //New Line
+            OUTPUT "Enter menu choice... "
+            INPUT MenuChoice 
+            CASE MenuChoice
+                1 : CALL Task11()
+                2 : CALL Task12()
+                3 : CALL Task13()
+                4 : CALL Task14()
+                5   //Quit Program
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE
+        END WHILE
+    END PROCEDURE
+
+    // TASK 1.1 modIFied FOR Task 1.5
+    // A 2D array of STRING data type will be used to store the data of each 
+    // student in a class as follows:
+    // Array element    Information     Example data
+    // MyArray[1,1]     Student Name    "Sam Arnold"
+    // MyArray[1,2]     Email Address   ""SamArnold137@email.com"
+    // MyArray[1,3]     Date of Birth   "25 Sep 2005"
+    // MyArray[1,4]     Student ID      "C3452-B"
+    // MyArray[1,5]     Tutor ID        "CHL"
+
+    // Write program code to:
+    // 1. declare the array
+    // 2. prompt AND input data
+    // 3. as shown above
+    // 4. write the data to the next array element
+    // 5. repeat from step 2 for all students in the class
+    // 6. output each element of the array in a suitable format, together with 
+    // explanatory text such as column headings
+
+    PROCEDURE Task11()
+        DECLARE MenuChoice : Integer 
+        menuChoice ← 0
+        WHILE MenuChoice <> 3
+            OUTPUT "AS Computer Science 9608/22, Pre Release Material"
+            OUTPUT "1. Input records AND add to next array element"
+            OUTPUT "2. Output array elements"
+            OUTPUT "3. Quit"
+
+            OUTPUT ""
+            OUTPUT "Enter menu choice... "
+            INPUT MenuChoice
+            CASE MenuChoice
+                1 : CALL addElement2D()
+                2 : CALL outputElements2D()
+                3   //Quit Task1.1
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE
+        END WHILE
+    END PROCEDURE
+
+    PROCEDURE addElement2D()
+        DECLARE stuName, stuEmail, DOB, stuID, tutorID : STRING
+        DECLARE i : INTEGER
+
+        OUTPUT "Input & add " & UB & " students to a 2D array"
+        FOR i ← 1 To UB
+            OUTPUT i & ". Input student name: "
+	    INPUT stuName
+			
+            OUTPUT i & ". Input student email: "
+            INPUT stuEmail 
+			
+            OUTPUT i & ". Input student date of birth: "
+	    INPUT DOB
+            
+	    REPEAT
+                OUTPUT i & ". Input student ID in Format A9999-A. E.g. ""C3452-B"": ")
+                INPUT stuID
+            Until validID(stuID) ← True
+			
+            OUTPUT i & ". Input tutor ID: "
+	    INPUT tutorID
+            
+            stuRec2D[i, 1] ← stuName
+            stuRec2D[i, 2] ← stuEmail
+            stuRec2D[i, 3] ← DOB
+            stuRec2D[i, 4] ← stuID
+	    stuRec2D[i, 5] ← tutorID
+        Next
+    END PROCEDURE
+
+    PROCEDURE outputElements2D()
+        DECLARE i : Integer
+
+        OUTPUT "Record " & Space(4) & "Student Name" & Space(12) & _
+               " Student Email" & Space(11) & " Student DOB" & Space(13) _
+               & " Student ID"& Space(13) & " Tutor ID"
+
+        OUTPUT "-------" & Space(4) & "------------" & Space(12) & _
+               " -------------" & Space(11) & " -----------" & Space(13) _
+               & " ----------" & Space(13) & " ----------"
+
+        FOR i ← 1 To UB
+            IF stuRec2D(i, 1) <> "*****" 
+	      THEN //Check FOR Task 1.2
+                OUTPUT i & Space(10) & stuRec2D[i, 1] & _
+                       Space(25 - LEN(stuRec2D[i, 1])) & _
+                       stuRec2D[i, 2] & Space(25 - LEN(stuRec2D[i, 2])) & _
+                       stuRec2D[i, 3] & Space(25 - LEN(stuRec2D[i, 3])) & _
+                       stuRec2D[i, 4] & Space(25 - Len(stuRec2D(i, 4))) & _
+		       stuRec2D[i, 5]
+            END IF
+        Next
+
+        OUTPUT ""
+        OUTPUT "Press any key to continue..."
+    END PROCEDURE
+
+    // TASK 1.2 modIFied FOR Task 1.5
+    // Consider what happens when a student leaves the class AND their data item is deleted from the array.
+    // Decide on a way of identIFying unused array elements AND only output elements that contain student
+    // details. ModIFy your program to include this.
+    
+    PROCEDURE Task12()
+        DECLARE stuName : STRING
+        DECLARE MenuChoice : Integer 
+
+        stuName ← ""
+        menuChoice ← 0
+
+        WHILE MenuChoice <> 3
+
+            OUTPUT "AS Computer Science 9608/22, Pre Release Material"
+            OUTPUT "1. Delete record"
+            OUTPUT "2. Output array elements"
+            OUTPUT "3. Quit"
+
+            INPUT MenuChoice
+            CASE MenuChoice
+                1
+                    OUTPUT "Input student name to delete: "
+                    INPUT stuName
+
+                    IF delRecord(stuName) = TRUE
+		      THEN
+                        OUTPUT "Record deleted successfully."
+                      ELSE
+                        OUTPUT "Record not found..."
+                    END IF
+
+                    OUTPUT "Press any key to continue..."
+
+                2 : CALL outputElements2D()
+                3 : //Quit Task1.2
+                OTHERWISE : OUTPUT "Wrong menu choice. Please try again."
+            END CASE
+        END WHILE
+    END PROCEDURE
+
+    FUNCTION delRecord(ByVal stuName : STRING) RETURNS BOOLEAN
+        DECLARE index : INTEGER
+
+        index ← searchFullName(stuName)
+        IF index = 0 
+	  THEN
+            RETURN FALSE
+          ELSE
+            stuRec2D[index, 1] ← "*****"
+            RETURN TRUE
+        END IF
+    END FUNCTION
+
+    // TASK 1.3 modIFied FOR Task 1.5
+    // Extend your program so that after assigning values to the array, the program will prompt the user to
+    // input a name, and then search the array to find that name and output the corresponding email address.
+    
+    PROCEDURE Task13()
+        DECLARE stuName : STRING
+        DECLARE index : INTEGER
+
+        OUTPUT ""
+        OUTPUT "Input student name to search for: "
+        INPUT stuName
+
+        index ← searchFullName(stuName)
+        IF index ← 0 
+	  THEN
+            OUTPUT "Record not found..."
+          ELSE
+            OUTPUT "Email address of " & stuName & " is: " & stuRec2D[index, 2]
+        END IF
+
+        OUTPUT "Press any key to continue..."
+
+    END PROCEDURE
+
+    // TASK 1.4 modified for 1.5
+    // Modify your program so that it will:
+    // prompt the user to input part, or the whole, of a name
+    // search the whole array to find the search term within the <StudentName> string
+    // for each array element in which the search term is found within the <StudentName> string, output
+    // the element in a suitable format.
+    
+    PROCEDURE Task14()
+        DECLARE stuName : STRING
+
+        OUTPUT ""
+        OUTPUT "Input part, or the whole, of a name to search for: "
+        INPUT stuName
+
+        searchPartialName(stuName)
+
+    END PROCEDURE
+
+    FUNCTION searchFullName(ByVal val : String) Returns Integer
+        DECLARE i : INTEGER
+        DECLARE isFound : Boolean 
+        isFound ← False
+        i ← 0
+
+        REPEAT
+            i ← i + 1
+            IF UCASE(val) ← UCASE(stuRec2D[i, 1]) THEN isFound ← True
+        Until i = UB OR isFound = TRUE
+
+        IF isFound 
+	  THEN
+            Return i
+          ELSE
+            Return 0
+        END IF
+    END FUNCTION
+
+    PROCEDURE searchPartialName(ByVal val : String)
+        DECLARE i : INTEGER
+
+        OUTPUT "Record " & Space(4) & "Student Name" & Space(12) & _
+               " Student Email" & Space(11) & " Student DOB" & _
+               Space(13) & " Student ID" & Space(13) & " Tutor ID"
+
+
+        OUTPUT "-------" & Space(4) & "------------" & Space(12) & _
+               " -------------" & Space(11) & " -----------" & _
+               Space(13) & " ----------" & Space(13) & " ----------")
+
+        FOR i ← 1 To UB
+            IF stuRec2D(i, 1) <> "*****" 
+	      THEN //Check FOR Task 1.2
+                IF InStr(UCASE(stuRec2D[i, 1]), UCASE(val)) > 0 
+		  THEN
+                    OUTPUT i & Space(10) & stuRec2D[i, 1] & Space(25 - LEN(stuRec2D[i, 1])) & _
+                           stuRec2D[i, 2] & Space(25 - LEN(stuRec2D[i, 2])) & _
+                           stuRec2D[i, 3] & Space(25 - LEN(stuRec2D[i, 3])) & _
+                           stuRec2D[i, 4] & Space(25 - Len(stuRec2D(i, 4))) & _
+			   stuRec2D[i, 5]
+                END IF
+            END IF
+        Next
+
+        OUTPUT "" //New Line
+        OUTPUT "Press any key to continue..."
+    END PROCEDURE
+
+    FUNCTION validID(ByVal Val : String) Returns Boolean
+        DECLARE CH : CHRACTER
+        DECLARE Count : INTEGER
+        DECLARE isValid : BOOLEAN
+  
+        isValid ← True
+
+        //validate string in FORmat A9999-A. E.g. "C3452-B"
+        IF LEN(val) = 7 AND Mid(val, 6, 1) = '-' 
+	  THEN
+            IF LEFT(val, 1) >= 'A' AND LEFT(val, 1) <= 'Z' 
+	      THEN
+                IF RIGHT(val, 1) >= 'A' AND RIGHT(val, 1) <= 'Z' 
+		  THEN
+                    FOR Count ← 2 To 5
+                        CH ← Mid(Val, Count, 1)
+                        IF CH < '0' OR CH > '9' 
+		          THEN
+                            isValid ← False
+                            Exit FOR
+                        END IF
+                    Next Count
+                  ELSE
+                    isValid ← False
+                END IF
+              ELSE
+                isValid ← False
+            END IF
+
+          ELSE
+            isValid ← False
+        END IF
+        RETURNS isValid
+    END FUNCTION
