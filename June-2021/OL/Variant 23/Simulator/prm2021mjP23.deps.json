@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "prm2021mjP23/1.0.0": {
+        "runtime": {
+          "prm2021mjP23.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "prm2021mjP23/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
