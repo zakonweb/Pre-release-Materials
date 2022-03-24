@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "prm2022MJp22/1.0.0": {
+        "runtime": {
+          "prm2022MJp22.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "prm2022MJp22/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
